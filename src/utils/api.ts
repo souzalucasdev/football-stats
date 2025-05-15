@@ -8,13 +8,21 @@ interface GameWithRawDate extends Game {
   rawDate: Date;
 }
 
-export const getGames = async (): Promise<Game[]> => {
+export const getGames = async (leagueCode: string): Promise<Game[]> => {
+  // if (!leagueCode) {
+  //   console.error('Invalid league code, defaulting to PL');
+  //   leagueCode = 'PL';
+  // }
+  console.log('from api: ', leagueCode);
   try {
-    const response = await axios.get(`${BASE_URL}/competitions/PL/matches`, {
-      headers: {
-        'X-Auth-Token': API_KEY,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/competitions/${leagueCode}/matches`,
+      {
+        headers: {
+          'X-Auth-Token': API_KEY,
+        },
+      }
+    );
 
     const allGames: GameWithRawDate[] = response.data.matches.map(
       (match: any) => {
@@ -42,7 +50,7 @@ export const getGames = async (): Promise<Game[]> => {
 
     return filteredGames;
   } catch (error) {
-    console.error('Erro ao buscar os jogos:', error);
+    console.error('Failed to find games of the selected league', error);
     return [];
   }
 };
