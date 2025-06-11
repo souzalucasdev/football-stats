@@ -12,6 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  --color-custom-green-500: oklch(0.6933 0.159 156.56);
+  --color-custom-green-400: oklch(0.8269 0.0843 157.84);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,9 +28,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+}
+#__next {
+  height: 100vh;
 }
 
 .bg-gray:hover {
   background-color: #5a5656;
   /* transition: background-color 3s; */
+}
+.bg-img {
+  background-image: url('../../public/assets/field-lines.svg');
 }

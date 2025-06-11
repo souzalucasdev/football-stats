@@ -17,10 +17,8 @@ export default async function League({ params }: Props) {
 
   const games = await getGames(leagueCode);
 
-  if (!games.length) return console.log('not found');
-
   return (
-    <div className='p-4'>
+    <div className='p-4 bg-custom-green-500'>
       <h1 className='text-4xl font-bold text-center'>Next Games</h1>
       <div className='p-4 flex items-center justify-between'>
         <Link

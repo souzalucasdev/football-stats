@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 import { useRouter } from 'next/navigation';
 
@@ -13,19 +12,25 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className='p-8 text-center'>
-      <h1 className='text-4xl font-bold mb-6'>Select a League</h1>
-      <div className='grid grid-cols-2 gap-4 max-w-md mx-auto'>
-        {leagues.map((league) => (
-          <button
-            key={league.code}
-            onClick={() => router.push(`/${league.code.toLowerCase()}`)}
-            className='bg-white hover:bg-gray-100 text-black py-3 px-4 rounded-2xl shadow cursor-pointer'
-          >
-            {league.name}
-          </button>
-        ))}
-      </div>
-    </div>
+    <>
+      <h1 className='bg-custom-green-500 text-4xl font-bold text-black text-center p-8'>
+        Select a League
+      </h1>
+      <section className='p-8 text-center w-full h-[70vh]'>
+        <div className='flex justify-center items-center h-full w-full bg-img bg-no-repeat bg-contain bg-center relative'>
+          <div className='grid grid-cols-2 gap-4 max-w-md mx-auto'>
+            {leagues.map((league) => (
+              <button
+                key={league.code}
+                onClick={() => router.push(`/${league.code.toLowerCase()}`)}
+                className='bg-black hover:bg-gray-100 text-custom-green-500 py-3 px-4 rounded-2xl shadow cursor-pointer'
+              >
+                {league.name.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
