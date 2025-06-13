@@ -13,7 +13,6 @@ export const getGames = async (leagueCode: string): Promise<Game[]> => {
   //   console.error('Invalid league code, defaulting to PL');
   //   leagueCode = 'PL';
   // }
-  console.log('from api: ', leagueCode);
   try {
     const response = await axios.get(
       `${BASE_URL}/competitions/${leagueCode}/matches`,

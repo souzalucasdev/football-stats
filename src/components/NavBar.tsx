@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function NavBar() {
   return (
-    <nav className='bg-white text-black p-4 border-b-4 border-black sticky top-0'>
+    <nav className='bg-white text-black p-4 border-b-4 border-black sticky top-0 z-20'>
       <div className='flex justify-between items-center'>
         <Link href='/' aria-label='Change language'>
           <div className='p-2 rounded-full cursor-pointer transition duration-200'>

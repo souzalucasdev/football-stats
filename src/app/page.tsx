@@ -27,8 +27,10 @@ export default function Home() {
 
   return (
     <>
-      <h1 className='bg-custom-green-500 text-4xl font-bold text-black text-center p-8'>
-        CHOOSE A LEAGUE TO SEE THE UPCOMMING GAMES!
+      <h1 className='text-4xl font-bold text-white text-center p-8 font-anta mb-4 md:mb-16 z-10'>
+        <span className='bg-black/50'>
+          CHOOSE A LEAGUE TO SEE THE UPCOMMING GAMES!
+        </span>
       </h1>
       <section className='p-8 text-center w-full min-h-[70vh]'>
         <div className='flex justify-center items-start flex-col max-w-4xl mx-auto w-full mb-16 bg-white rounded-xl'>
@@ -47,7 +49,7 @@ export default function Home() {
               <button
                 key={league.code}
                 onClick={() => router.push(`/${league.code.toLowerCase()}`)}
-                className='bg-black hover:bg-gray-100 border border-transparent hover:border-black text-custom-green-500 py-3 px-4 rounded-2xl shadow cursor-pointer'
+                className='bg-white hover:bg-white/80 border border-transparent hover:border-black text-black py-3 px-4 rounded-2xl shadow cursor-pointer'
               >
                 {league.name.toUpperCase()}
               </button>

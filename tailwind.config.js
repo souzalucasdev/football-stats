@@ -7,7 +7,11 @@ module.exports = {
       'custom-green-500': '#29b473',
       'custom-green-400': '#94d9ba',
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        anta: ['var(--font-anta)', 'sans-serif'],
+      },
+    },
   },
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 };

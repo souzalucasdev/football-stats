@@ -12,15 +12,15 @@ interface Props {
 }
 
 export default async function League({ params }: Props) {
-  const leagueCode = params.league?.toUpperCase() || 'PL';
-  console.log('params.league:', params.league);
-
+  const leagueCode = (params?.league || 'PL').toUpperCase();
   const games = await getGames(leagueCode);
 
   return (
-    <div className='p-4 bg-custom-green-500'>
+    <div className='p-4'>
       <div className='w-full relative flex items-center justify-center py-4'>
-        <h1 className='text-4xl font-bold text-center'>Next Games</h1>
+        <h1 className=' bg-black/50 text-4xl font-bold text-center'>
+          Next Games
+        </h1>
         <div className='absolute right-4'>
           <Link
             href='/'
