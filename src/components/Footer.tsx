@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-
+import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className='w-full border-t border-black bg-white text-black py-6'>
@@ -10,23 +9,23 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Football Stats. All rights reserved.
         </p>
         <div className='flex space-x-4 mt-2 md:mt-0'>
-          <a href='/about-us' className='hover:underline text-sm'>
+          <Link href='/about-us' className='hover:underline text-sm'>
             About
-          </a>
-          <a
+          </Link>
+          <Link
             href='mailto:souzalucas.dev@gmail.com'
             className='hover:underline text-sm'
           >
             Contact
-          </a>
-          <a
+          </Link>
+          <Link
             href='https://github.com/souzalucasdev/football-stats'
             target='_blank'
             rel='noopener noreferrer'
             className='hover:underline text-sm'
           >
             GitHub
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

@@ -24,8 +24,10 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(response.data), {
       status: 200,
     });
-  } catch (error: any) {
-    console.error('API proxy error:', error?.response?.data || error.message);
+  } catch (error: unknown) {
+    const err = error as { response?: { data?: any }; message?: string };
+
+    console.error('API proxy error:', err?.response?.data || err?.message);
     return new Response(JSON.stringify({ error: 'Failed to fetch matches' }), {
       status: 500,
     });
