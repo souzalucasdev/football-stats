@@ -14,7 +14,7 @@ export default function Footer() {
             About
           </a>
           <a
-            href='mailto:contact@footballstats.com'
+            href='mailto:souzalucas.dev@gmail.com'
             className='hover:underline text-sm'
           >
             Contact

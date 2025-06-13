@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function AboutUsPage() {
   return (
-    <div className='flex flex-col min-h-screen w-full bg-custom-green-500 flex justify-center items-center py-12'>
+    <div className='flex flex-col min-h-screen w-full flex justify-center items-center py-12'>
       <div className='bg-white w-[80vw] rounded-xl shadow-md flex flex-col justify-center items-center mb-12'>
         <h2 className='p-4 text-3xl font-bold mb-4 text-center text-custom-green-500'>
           Who we are
