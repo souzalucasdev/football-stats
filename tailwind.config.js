@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   theme: {
     backgroundImage: {
       'field-lines': "url('/assets/field-marks.svg')",
