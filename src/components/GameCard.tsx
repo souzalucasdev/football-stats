@@ -23,31 +23,32 @@ const GameCard: React.FC<GameCardProps> = ({
       onClick={() => setFlipped(!flipped)}
     >
       <div
-        className={`relative w-full h-full transition-transform duration-500 transform-style-preserve-3d ${
+        className={`relative w-full h-full transition-transform duration-500 card-inner ${
           flipped ? 'rotate-y-180' : ''
         }`}
       >
-        {/* Front side */}
-        <div className='absolute w-full h-full backface-hidden p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-95 bg-white'>
-          <div className='team-home'>
-            <h2 className='text-2xl font-semibold text-center text-black'>
+        {/* Front Side */}
+        <div className='absolute w-full h-full card-face p-4 rounded-lg shadow-lg hover:shadow-xl bg-white'>
+          <div className='bg-black text-white text-sm px-3 py-1 flex justify-between items-center'>
+            <span>{date}</span>
+            <span>{time}</span>
+          </div>
+
+          <div className='h-full flex flex-col justify-center items-center px-4'>
+            <div className='text-center text-black text-lg font-semibold truncate w-full'>
               {teamHome}
-            </h2>
-          </div>
-          <p className='text-2xl font-semibold text-center text-black'>vs</p>
-          <div className='team-away'>
-            <h2 className='text-2xl font-semibold text-center text-black'>
+            </div>
+            <div className='text-center text-gray-600 text-sm my-1'>vs</div>
+            <div className='text-center text-black text-lg font-semibold truncate w-full'>
               {teamAway}
-            </h2>
+            </div>
           </div>
-          <p className='mt-4 text-gray-700 text-center'>{date}</p>
-          <p className='text-xl text-black font-medium text-center'>{time}</p>
         </div>
 
-        {/* Back side */}
-        <div className='absolute w-full h-full backface-hidden rotate-y-180 p-6 rounded-lg shadow-inner bg-gray-100 flex items-center justify-center'>
-          <h2 className='text-2xl font-bold text-center text-gray-800'>
-            More Info
+        {/* Back Side */}
+        <div className='absolute w-full h-full card-face card-back p-4 rounded-lg shadow-inner bg-gray-100 flex items-center justify-center'>
+          <h2 className='text-base font-bold text-center text-gray-800'>
+            {teamAway} is probably gonna win...
           </h2>
         </div>
       </div>
