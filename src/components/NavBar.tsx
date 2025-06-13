@@ -1,18 +1,39 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NavBar() {
   return (
-    <nav className='bg-custom-green-500 text-black p-4 border-b-4 border-black'>
-      <div className='flex justify-between'>
-        <div className='left'>
-          <div className='ml-4'>Logo</div>
-        </div>
-        <ul className='flex justify-between'>
-          <li className='mr-4'>Login</li>
-          <li className='mr-4'>About us</li>
-          <li className='mr-4'>Language</li>
+    <nav className='bg-white text-black p-4 border-b-4 border-black sticky top-0'>
+      <div className='flex justify-between items-center'>
+        <Link href='/' aria-label='Change language'>
+          <div className='p-2 rounded-full cursor-pointer transition duration-200'>
+            <Image
+              src='/assets/logo.png'
+              alt='Football Stats logo'
+              width={70}
+              height={70}
+            />
+          </div>
+        </Link>
+        <div className='left'></div>
+        <ul className='flex justify-between items-center'>
+          {/* <li className='mr-4'>Login</li> */}
+          <Link href='/about-us' className='mr-4'>
+            About us
+          </Link>
+          <Link href='/' aria-label='Change language'>
+            <div className='p-2 rounded-full cursor-pointer transition duration-200'>
+              <Image
+                src='/assets/globe-icon.svg'
+                alt='Football Stats logo'
+                width={20}
+                height={20}
+              />
+            </div>
+          </Link>
         </ul>
       </div>
     </nav>
