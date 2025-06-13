@@ -10,17 +10,16 @@ export default function AboutUsPage() {
         <section className='p-8 max-w-5xl mx-auto flex flex-col md:flex-row items-start gap-8'>
           <div className='md:w-1/2 text-black'>
             <p className='text-lg leading-relaxed'>
-              We're passionate football enthusiasts who decided to channel our
+              Were passionate football enthusiasts who decided to channel our
               love for the sport into building something meaningful.{' '}
               <strong>Football Stats</strong> started as a portfolio project — a
               way for us to practice and showcase our skills while focusing on
               something we genuinely enjoy: football.
               <br />
-              We're not ruling out growing this project further. With the
-              massive global interest in football, there's a lot of potential
-              here — and a lot more we’d love to share. Whether you're here to
-              check match times or follow your favorite league, we're glad you
-              stopped by.
+              Were not ruling out growing this project further. With the massive
+              global interest in football, theres a lot of potential here — and
+              a lot more wed love to share. Whether youre here to check match
+              times or follow your favorite league, were glad you stopped by.
             </p>
           </div>
 
@@ -53,8 +52,8 @@ export default function AboutUsPage() {
             <p className='text-lg leading-relaxed'>
               Our main goal was to create a clean and functional page to display
               upcoming matches from the top European leagues. But as any
-              football fan knows, once you're in, it's hard to stop. From match
-              schedules to results, league tables, and beyond, there's an entire
+              football fan knows, once youre in, its hard to stop. From match
+              schedules to results, league tables, and beyond, theres an entire
               universe of data and stories waiting to be explored.
               <br />
             </p>
