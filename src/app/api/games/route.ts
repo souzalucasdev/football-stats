@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const BASE_URL = 'https://api.football-data.org/v4';
 const API_KEY = process.env.API_KEY;
@@ -25,9 +25,15 @@ export async function GET(req: NextRequest) {
       status: 200,
     });
   } catch (error: unknown) {
-    const err = error as { response?: { data?: any }; message?: string };
+    let errorMessage = 'Unknown error';
 
-    console.error('API proxy error:', err?.response?.data || err?.message);
+    if (axios.isAxiosError(error)) {
+      errorMessage = JSON.stringify(error.response?.data || error.message);
+    } else if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    console.error('API proxy error:', errorMessage);
     return new Response(JSON.stringify({ error: 'Failed to fetch matches' }), {
       status: 500,
     });
