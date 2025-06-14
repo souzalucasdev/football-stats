@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <>
       <h1 className='text-6xl font-bold text-white text-center p-8 font-anta mb-4 z-10'>
-        CHOOSE A LEAGUE TO SEE THE UPCOMMING GAMES!
+        CHOOSE A LEAGUE TO SEE THE UPCOMING GAMES!
       </h1>
       <section className='p-8 text-center w-full min-h-[70vh]'>
         <div className='flex justify-center items-start flex-col max-w-4xl mx-auto w-full mb-16 bg-white rounded-xl'>
