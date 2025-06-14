@@ -6,9 +6,9 @@ import ReactPaginate from 'react-paginate';
 import GameCard from '@/components/GameCard';
 import { getGames } from '@/utils/api';
 import { Game } from '@/types/Game';
-import Link from 'next/link';
 import '../../app/globals.css';
 import Image from 'next/image';
+import BackButton from '@/components/BackButton';
 
 export default function League() {
   const params = useParams();
@@ -79,16 +79,13 @@ export default function League() {
         </div>
       ) : (
         <>
-          <div className='w-full flex flex-col md:flex-row items-center justify-between gap-4 py-4'>
-            <h1 className='bg-black/50 text-4xl font-bold text-center text-white w-full md:w-auto'>
+          <div className='flex'>
+            <BackButton />
+          </div>
+          <div className='w-full flex flex-col md:flex-row items-center justify-between gap-4 md:mb-12 justify-center'>
+            <h1 className='text-6xl font-bold text-center text-white w-full md:w-auto'>
               Next Games
             </h1>
-            <Link
-              href='/'
-              className='flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg transition-colors'
-            >
-              ← Back
-            </Link>
           </div>
 
           <div className='mt-4 mb-8 max-w-md mx-auto w-full'>
