@@ -71,7 +71,10 @@ export default function League() {
           <Image
             src='/favicon.ico'
             alt='Loading...'
-            className='w-12 h-12 animate-spin'
+            width={48}
+            height={48}
+            className='animate-spin'
+            unoptimized
           />
         </div>
       ) : (
