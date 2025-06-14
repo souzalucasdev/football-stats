@@ -5,6 +5,12 @@ const BASE_URL = 'https://api.football-data.org/v4';
 const API_KEY = process.env.API_KEY;
 
 export async function GET(req: NextRequest) {
+  if (!API_KEY) {
+    console.error('API_KEY is not defined');
+    return new Response(JSON.stringify({ error: 'Server misconfiguration' }), {
+      status: 500,
+    });
+  }
   const league = req.nextUrl.searchParams.get('league');
 
   if (!league) {
