@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 className='text-6xl font-bold text-white text-center p-8 font-anta mb-4 z-10'>
+      <h1 className='text-5xl font-bold text-white text-center p-8 font-anta mb-4 z-10'>
         CHOOSE A LEAGUE TO SEE THE UPCOMING GAMES!
       </h1>
       <section className='p-8 text-center w-full min-h-[70vh]'>

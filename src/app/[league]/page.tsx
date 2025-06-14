@@ -83,7 +83,7 @@ export default function League() {
             <BackButton />
           </div>
           <div className='w-full flex flex-col md:flex-row items-center justify-between gap-4 md:mb-12 justify-center'>
-            <h1 className='text-6xl font-bold text-center text-white w-full md:w-auto'>
+            <h1 className='text-5xl font-bold text-center text-white w-full md:w-auto'>
               Next Games
             </h1>
           </div>
