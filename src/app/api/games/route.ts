@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const BASE_URL = 'https://api.football-data.org/v4';
 const API_KEY = process.env.API_KEY;
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await axios.get(
+    const response: AxiosResponse = await axios.get(
       `${BASE_URL}/competitions/${league}/matches`,
       {
         headers: { 'X-Auth-Token': API_KEY },
