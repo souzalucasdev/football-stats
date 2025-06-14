@@ -8,6 +8,7 @@ import { getGames } from '@/utils/api';
 import { Game } from '@/types/Game';
 import Link from 'next/link';
 import '../../app/globals.css';
+import Image from 'next/image';
 
 export default function League() {
   const params = useParams();
@@ -67,7 +68,7 @@ export default function League() {
     <div className='relative p-4 min-h-screen'>
       {loading ? (
         <div className='absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm'>
-          <img
+          <Image
             src='/favicon.ico'
             alt='Loading...'
             className='w-12 h-12 animate-spin'
