@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Standings from '@/components/Standings';
 import Matches from '@/components/Matches';
 

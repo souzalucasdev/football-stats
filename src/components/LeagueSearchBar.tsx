@@ -9,9 +9,9 @@ interface LeagueSearchBarProps {
   leagues: League[];
 }
 const LeagueSearchBar: React.FC<LeagueSearchBarProps> = ({ leagues }) => {
-  const filteredLeagues = leagues.filter((league) =>
-    league.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredLeagues = leagues.filter((league) =>
+  //   league.name.toLowerCase().includes(search.toLowerCase())
+  // );
   const [search, setSearch] = useState('');
   return (
     <div className='flex justify-center items-start flex-col max-w-4xl mx-auto w-full mb-16 bg-white rounded-xl'>

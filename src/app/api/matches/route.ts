@@ -4,6 +4,24 @@ import axios from 'axios';
 const API_KEY = process.env.API_KEY;
 const BASE_URL = 'https://api.football-data.org/v4';
 
+interface Team {
+  id: number;
+  name: string;
+  crest: string;
+}
+
+interface Match {
+  utcDate: string;
+  homeTeam: {
+    id: number;
+    name: string;
+  };
+  awayTeam: {
+    id: number;
+    name: string;
+  };
+}
+
 export async function GET(req: NextRequest) {
   const league = req.nextUrl.searchParams.get('league');
   if (!league || !API_KEY) {
@@ -11,14 +29,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const matchesRes = await axios.get(
+    const matchesRes = await axios.get<{ matches: Match[] }>(
       `${BASE_URL}/competitions/${league}/matches?status=SCHEDULED`,
       {
         headers: { 'X-Auth-Token': API_KEY },
       }
     );
 
-    const teamsRes = await axios.get(
+    const teamsRes = await axios.get<{ teams: Team[] }>(
       `${BASE_URL}/competitions/${league}/teams`,
       {
         headers: { 'X-Auth-Token': API_KEY },
@@ -32,7 +50,8 @@ export async function GET(req: NextRequest) {
         crest: team.crest,
       });
     }
-    const enrichedMatches = matchesRes.data.matches.map((match: any) => ({
+
+    const enrichedMatches = matchesRes.data.matches.map((match) => ({
       utcDate: match.utcDate,
       homeTeam: {
         id: match.homeTeam.id,
