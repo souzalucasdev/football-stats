@@ -26,15 +26,7 @@ export default function RootLayout({
         className={`${anta.variable} font-anta bg-custom-green-500 flex flex-col`}
       >
         <NavBar />
-        <main
-          className='flex-grow bg-repeat bg-top'
-          style={{
-            backgroundImage: "url('/football-field.jpg')",
-            backgroundSize: '400px',
-          }}
-        >
-          {children}
-        </main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

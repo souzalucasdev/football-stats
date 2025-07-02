@@ -1,150 +1,58 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import ReactPaginate from 'react-paginate';
-import GameCard from '@/components/GameCard';
-import { getGames } from '@/utils/api';
-import { Game } from '@/types/Game';
-import '../../app/globals.css';
 import Image from 'next/image';
-import BackButton from '@/components/BackButton';
+import TabbedMenu from '@/components/TabbedMenu';
 
-export default function League() {
-  const params = useParams();
-  const leagueCode = (params?.league as string)?.toUpperCase() || 'PL';
+interface LeagueProps {
+  code: string;
+  name: string;
+  emblem: string;
+}
 
-  const [games, setGames] = useState<Game[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [gamesPerPage, setGamesPerPage] = useState(12);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    const handleResize = () => {
-      setGamesPerPage(window.innerWidth < 768 ? 8 : 12);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+const League = () => {
+  const { league } = useParams();
+  const [currentLeague, setCurrentLeague] = useState<LeagueProps | null>(null);
 
   useEffect(() => {
-    const fetchGames = async () => {
-      setLoading(true);
-      const data = await getGames(leagueCode);
-      setGames(data);
-      setLoading(false);
+    const fetchLeague = async () => {
+      try {
+        const res = await fetch('/api/leagues');
+        const data = await res.json();
+
+        const found = data.find(
+          (l: LeagueProps) => l.code.toLowerCase() === league
+        );
+
+        setCurrentLeague(found);
+      } catch (error) {
+        console.error('Failed to fetch league: ', error);
+      }
     };
-    fetchGames();
-  }, [leagueCode]);
 
-  const filteredGames = useMemo(() => {
-    return games.filter((game) =>
-      `${game.homeTeam} ${game.awayTeam}`
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
-  }, [games, searchTerm]);
+    fetchLeague();
+  }, [league]);
 
-  const pageCount = Math.ceil(filteredGames.length / gamesPerPage);
-
-  const currentGames = useMemo(() => {
-    const start = currentPage * gamesPerPage;
-    return filteredGames.slice(start, start + gamesPerPage);
-  }, [filteredGames, currentPage, gamesPerPage]);
-
-  const handlePageClick = ({ selected }: { selected: number }) => {
-    setLoading(true);
-    setTimeout(() => {
-      setCurrentPage(selected);
-      setLoading(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 200);
-  };
+  if (!currentLeague) return <p className='p-4'>Loading league info...</p>;
 
   return (
-    <div className='relative p-4 min-h-screen'>
-      {loading ? (
-        <div className='absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm'>
-          <Image
-            src='/favicon.ico'
-            alt='Loading...'
-            width={48}
-            height={48}
-            className='animate-spin'
-            unoptimized
-          />
-        </div>
-      ) : (
-        <>
-          <div className='flex'>
-            <BackButton />
-          </div>
-          <div className='w-full flex flex-col md:flex-row items-center justify-between gap-4 md:mb-12 justify-center'>
-            <h1 className='text-5xl font-bold text-center text-white w-full md:w-auto'>
-              Next Games
-            </h1>
-          </div>
-
-          <div className='mt-4 mb-8 max-w-md mx-auto w-full'>
-            <input
-              type='text'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder='Search for a team...'
-              className='w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black bg-white rounded-md text-black'
-            />
-          </div>
-
-          {filteredGames.length === 0 ? (
-            <div className='mt-8 flex justify-center'>
-              <div className='text-center text-lg text-white font-semibold bg-red-500 rounded-md px-4 py-2 max-w-md w-full'>
-                No games found for your search. Try retyping and do not use
-                accents.
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4'>
-                {currentGames.map((game, i) => (
-                  <GameCard
-                    key={i}
-                    teamHome={game.homeTeam}
-                    teamAway={game.awayTeam}
-                    date={game.date}
-                    time={game.time}
-                  />
-                ))}
-              </div>
-
-              {pageCount > 1 && (
-                <div className='mt-8 flex justify-center'>
-                  <ReactPaginate
-                    previousLabel='‹'
-                    nextLabel='›'
-                    breakLabel='...'
-                    onPageChange={handlePageClick}
-                    pageCount={pageCount}
-                    forcePage={currentPage}
-                    containerClassName='flex justify-center items-center gap-1 mt-8 bg-white border rounded-md p-2'
-                    pageClassName='group'
-                    pageLinkClassName='block min-w-[2.5rem] text-center px-3 py-2 text-sm rounded-md border border-gray-300 text-gray-700 group-hover:bg-gray-100 transition-colors cursor-pointer'
-                    activeClassName='z-10'
-                    activeLinkClassName='bg-black text-white border-black'
-                    previousClassName='group'
-                    previousLinkClassName='block px-3 py-2 rounded-md border border-gray-300 text-gray-700 group-hover:bg-gray-100 transition-colors cursor-pointer'
-                    nextClassName='group'
-                    nextLinkClassName='block px-3 py-2 rounded-md border border-gray-300 text-gray-700 group-hover:bg-gray-100 transition-colors cursor-pointer'
-                    breakClassName='text-gray-500 px-2 py-2'
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <main className='min-h-screen bg-gray-50 p-6'>
+      <div className='max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md text-center'>
+        <Image
+          src={currentLeague.emblem}
+          alt={`${currentLeague.name} logo`}
+          width={80}
+          height={80}
+          className='mx-auto mb-4'
+        />
+        <h1 className='text-2xl font-semibold text-gray-800'>
+          {currentLeague.name}
+        </h1>
+      </div>
+      <TabbedMenu leagueCode={currentLeague.code} />
+    </main>
   );
-}
+};
+
+export default League;

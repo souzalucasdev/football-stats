@@ -3,7 +3,7 @@ import BackButton from '@/components/BackButton';
 
 export default function AboutUsPage() {
   return (
-    <div className='relative p-4 min-h-screen'>
+    <div className='relative p-4 min-h-screen bg-white'>
       <BackButton />
       <div className='flex flex-col min-h-screen w-full flex justify-center items-center py-12'>
         <div className='bg-white w-[80vw] rounded-xl shadow-md flex flex-col justify-center items-center mb-12'>
