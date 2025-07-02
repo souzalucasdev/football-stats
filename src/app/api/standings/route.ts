@@ -45,7 +45,8 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(simplifiedTable), {
       status: 200,
     });
-  } catch (_err) {
+  } catch (err) {
+    console.error('Standings API error:', err);
     return new Response(
       JSON.stringify({ error: 'Failed to fetch standings' }),
       {

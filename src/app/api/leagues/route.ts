@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server';
 import axios, { AxiosResponse } from 'axios';
 
 const BASE_URL = 'https://api.football-data.org/v4';
@@ -10,7 +9,7 @@ interface Competition {
   emblem: string;
 }
 
-export async function GET(_req: NextRequest) {
+export async function GET() {
   if (!API_KEY) {
     return new Response(JSON.stringify({ error: 'Missing API_KEY' }), {
       status: 500,

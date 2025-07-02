@@ -1,14 +1,18 @@
 import { useState } from 'react';
 
-interface League {
-  code: string;
-  name: string;
-}
+// interface League {
+//   code: string;
+//   name: string;
+// }
 
 interface LeagueSearchBarProps {
-  leagues: League[];
+  // leagues: League[];
 }
-const LeagueSearchBar: React.FC<LeagueSearchBarProps> = ({ leagues }) => {
+const LeagueSearchBar: React.FC<LeagueSearchBarProps> = (
+  {
+    // leagues
+  }
+) => {
   // const filteredLeagues = leagues.filter((league) =>
   //   league.name.toLowerCase().includes(search.toLowerCase())
   // );
