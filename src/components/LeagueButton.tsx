@@ -15,7 +15,8 @@ const LeagueButton: React.FC<LeagueButtonProps> = ({ league }) => {
   return (
     <button
       onClick={() => router.push(`/${league.code.toLowerCase()}`)}
-      className='p-2 w-full h-full min-h-20 flex md:flex-col items-center justify-start text-center text-sm font-semibold bg-white hover:bg-black/10 border border-transparent hover:border-black text-black px-4 rounded-2xl shadow cursor-pointer truncate'
+      className='
+        p-2 w-full h-full flex flex-grow min-h-0 md:flex-col items-center justify-start text-center text-sm font-semibold bg-white hover:bg-green-600/10 border border-transparent hover:border-green-600 text-black px-4 rounded-2xl shadow cursor-pointer'
     >
       {league.emblem && (
         <Image
@@ -26,7 +27,7 @@ const LeagueButton: React.FC<LeagueButtonProps> = ({ league }) => {
           className='rounded object-contain md:mb-4 mr-2 md:mr-0'
         />
       )}
-      <span className='truncate'>{league.name}</span>
+      <span className='break-words md:text-center'>{league.name}</span>
     </button>
   );
 };

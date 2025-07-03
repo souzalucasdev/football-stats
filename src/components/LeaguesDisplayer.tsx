@@ -46,12 +46,12 @@ const LeaguesDisplayer = () => {
           placeholder='Search for a league...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='w-full p-4 rounded-xl border border-gray-300 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition mb-12'
+          className='w-full p-4 rounded-xl border border-gray-300 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 transition mb-12'
         />
       </div>
 
-      <div className='max-w-6xl mx-auto w-full'>
-        <div className='grid grid-cols-2 lg:grid-cols-4 gap-6'>
+      <div className='w-full'>
+        <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr'>
           {filteredLeagues.map((league) => (
             <LeagueButton league={league} key={league.code} />
           ))}
