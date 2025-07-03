@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://football-stats-dusky.vercel.app/sitemap.xml

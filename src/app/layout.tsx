@@ -12,7 +12,8 @@ const anta = Anta({
 
 export const metadata: Metadata = {
   title: 'Football Stats',
-  description: '',
+  description:
+    'Explore the latest standings and upcoming matches of the world’s top football leagues!',
 };
 
 export default function RootLayout({

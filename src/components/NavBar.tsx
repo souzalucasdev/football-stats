@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -19,7 +17,6 @@ export default function NavBar() {
         </Link>
         <div className='left'></div>
         <ul className='flex justify-between items-center'>
-          {/* <li className='mr-4'>Login</li> */}
           <Link href='/about-us' className='mr-4'>
             About us
           </Link>
