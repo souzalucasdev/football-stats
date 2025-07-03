@@ -17,19 +17,23 @@ export default function NavBar() {
         </Link>
         <div className='left'></div>
         <ul className='flex justify-between items-center'>
-          <Link href='/about-us' className='mr-4'>
-            About us
-          </Link>
-          <Link href='/' aria-label='Change language'>
-            <div className='p-2 rounded-full cursor-pointer transition duration-200'>
-              <Image
-                src='/assets/globe-icon.svg'
-                alt='Football Stats logo'
-                width={20}
-                height={20}
-              />
-            </div>
-          </Link>
+          <li>
+            <Link href='/about-us' className='mr-4'>
+              About us
+            </Link>
+          </li>
+          <li>
+            <Link href='/' aria-label='Change language'>
+              <div className='p-2 rounded-full cursor-pointer transition duration-200'>
+                <Image
+                  src='/assets/globe-icon.svg'
+                  alt='Football Stats logo'
+                  width={20}
+                  height={20}
+                />
+              </div>
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
