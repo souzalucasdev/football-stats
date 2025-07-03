@@ -12,6 +12,7 @@ interface League {
 const LeaguesDisplayer = () => {
   const [leagues, setLeagues] = useState<League[]>([]);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeagues = async () => {
@@ -28,6 +29,8 @@ const LeaguesDisplayer = () => {
       } catch (error) {
         console.error('Failed to fetch leagues: ', error);
         setLeagues([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -55,7 +58,7 @@ const LeaguesDisplayer = () => {
           {filteredLeagues.map((league) => (
             <LeagueButton league={league} key={league.code} />
           ))}
-          {filteredLeagues.length === 0 && (
+          {!loading && filteredLeagues.length === 0 && (
             <p className='col-span-full text-gray-500 mt-4'>
               No leagues found.
             </p>
