@@ -30,6 +30,7 @@ const LeaguesDisplayer = () => {
             dispatch(setError('Invalid data format'));
           }
         } catch (err) {
+          console.error('Failed to fetch leagues:', err);
           dispatch(setLeagues([]));
           dispatch(setError('Failed to fetch leagues'));
         } finally {
