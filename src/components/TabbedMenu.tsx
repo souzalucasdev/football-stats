@@ -4,25 +4,11 @@ import { useState } from 'react';
 import Standings from '@/components/Standings';
 import Matches from '@/components/Matches';
 
-interface StandingTeam {
-  position: number;
-  team: { name: string; crest: string };
-  points: number;
-  playedGames: number;
-}
-
-interface Match {
-  utcDate: string;
-  homeTeam: { name: string; crest?: string };
-  awayTeam: { name: string; crest?: string };
-}
-
 interface TabbedMenuProps {
-  standings: StandingTeam[];
-  matches: Match[];
+  leagueCode: string;
 }
 
-const TabbedMenu = ({ standings, matches }: TabbedMenuProps) => {
+const TabbedMenu = ({ leagueCode }: TabbedMenuProps) => {
   const [activeTab, setActiveTab] = useState<'Table' | 'Matches'>('Table');
 
   return (
@@ -44,8 +30,8 @@ const TabbedMenu = ({ standings, matches }: TabbedMenuProps) => {
       </div>
 
       <div className='mt-6 max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md'>
-        {activeTab === 'Table' && <Standings data={standings} />}
-        {activeTab === 'Matches' && <Matches data={matches} />}
+        {activeTab === 'Table' && <Standings leagueCode={leagueCode} />}
+        {activeTab === 'Matches' && <Matches leagueCode={leagueCode} />}
       </div>
     </>
   );

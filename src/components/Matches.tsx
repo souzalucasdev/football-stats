@@ -1,4 +1,8 @@
+'use client';
+
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/redux/store';
 
 interface Match {
   utcDate: string;
@@ -13,26 +17,32 @@ interface Match {
 }
 
 interface MatchesProps {
-  data: Match[];
+  leagueCode: string;
 }
 
-const Matches = ({ data }: MatchesProps) => {
-  if (!data.length)
-    return <p className='text-gray-500'>No upcoming matches available.</p>;
+const Matches = ({ leagueCode }: MatchesProps) => {
+  const matches = useSelector(
+    (state: RootState) => state.matches.matches[leagueCode] || []
+  ) as Match[];
 
-  const groupedMatches = data.reduce<Record<string, Match[]>>((acc, match) => {
-    const matchDate = new Date(match.utcDate);
-    const dateKey = matchDate.toLocaleDateString(undefined, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-    if (!acc[dateKey]) {
-      acc[dateKey] = [];
-    }
-    acc[dateKey].push(match);
-    return acc;
-  }, {});
+  if (!matches.length)
+    return <p className='text-gray-500'>No upcoming matches available.</p>;
+  const groupedMatches = matches.reduce<Record<string, Match[]>>(
+    (acc, match) => {
+      const matchDate = new Date(match.utcDate);
+      const dateKey = matchDate.toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+      acc[dateKey].push(match);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className='text-left text-black'>

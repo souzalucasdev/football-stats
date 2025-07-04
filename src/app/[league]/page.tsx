@@ -3,82 +3,103 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from '@/redux/store';
 import TabbedMenu from '@/components/TabbedMenu';
 import Spinner from '@/components/Spinner';
 import BackButton from '@/components/BackButton';
+
+import { setStandings } from '@/redux/slices/standingsSlice';
+import { setMatches } from '@/redux/slices/matchesSlice';
+import type { RootState } from '@/redux/store';
 
 interface LeagueProps {
   code: string;
   name: string;
   emblem: string;
-  standings: StandingTeam[];
-  matches: Match[];
-}
-
-interface StandingTeam {
-  position: number;
-  team: { name: string; crest: string };
-  points: number;
-  playedGames: number;
-}
-
-interface Match {
-  utcDate: string;
-  homeTeam: { name: string; crest?: string };
-  awayTeam: { name: string; crest?: string };
 }
 
 const League = () => {
-  const { league } = useParams();
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const leagueParam = params.league;
+  const leagueCode = Array.isArray(leagueParam) ? leagueParam[0] : leagueParam;
+
+  const leagues = useSelector((state: RootState) => state.leagues.leagues);
+
   const [currentLeague, setCurrentLeague] = useState<LeagueProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLeagueData = async () => {
+    if (!leagueCode) {
+      setError('Invalid league code');
+      setLoading(false);
+      return;
+    }
+
+    if (leagues.length === 0) {
+      setError('Leagues data not loaded yet');
+      setLoading(false);
+      return;
+    }
+
+    const foundLeague = leagues.find(
+      (l) => l.code.toLowerCase() === leagueCode.toLowerCase()
+    );
+
+    if (!foundLeague) {
+      setError('League not found');
+      setLoading(false);
+      return;
+    }
+
+    setCurrentLeague(foundLeague);
+
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
+
       try {
-        const res = await fetch('/api/leagues');
-        const leagues = await res.json();
+        const state = store.getState();
 
-        const foundLeague = leagues.find(
-          (l: LeagueProps) => l.code.toLowerCase() === league
-        );
+        const standingsInStore = state.standings.standings[foundLeague.code];
+        const matchesInStore = state.matches.matches[foundLeague.code];
 
-        if (!foundLeague) {
-          setError('League not found');
-          setCurrentLeague(null);
-          return;
+        if (!standingsInStore) {
+          const standingsRes = await fetch(
+            `/api/standings?league=${foundLeague.code}`
+          );
+          if (!standingsRes.ok) throw new Error('Failed to fetch standings');
+          const standings = await standingsRes.json();
+          dispatch(
+            setStandings({ leagueCode: foundLeague.code, data: standings })
+          );
         }
 
-        const [standingsRes, matchesRes] = await Promise.all([
-          fetch(`/api/standings?league=${foundLeague.code}`),
-          fetch(`/api/matches?league=${foundLeague.code}`),
-        ]);
-
-        if (!standingsRes.ok || !matchesRes.ok) {
-          setError('Failed to fetch standings or matches');
-          return;
+        if (!matchesInStore) {
+          const matchesRes = await fetch(
+            `/api/matches?league=${foundLeague.code}`
+          );
+          if (!matchesRes.ok) throw new Error('Failed to fetch matches');
+          const matchesData = await matchesRes.json();
+          dispatch(
+            setMatches({
+              leagueCode: foundLeague.code,
+              data: matchesData.matches.slice(0, 10),
+            })
+          );
         }
-
-        const standings = await standingsRes.json();
-        const matchesData = await matchesRes.json();
-
-        setCurrentLeague({
-          ...foundLeague,
-          standings,
-          matches: matchesData.matches.slice(0, 10),
-        });
-      } catch {
-        setError('Failed to fetch league data');
+      } catch (e) {
+        setError((e as Error).message || 'Failed to fetch league data');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchLeagueData();
-  }, [league]);
+    fetchData();
+  }, [leagueCode, leagues, dispatch]);
 
   if (loading) return <Spinner />;
   if (error) return <p className='p-4 text-center text-red-600'>{error}</p>;
@@ -99,10 +120,7 @@ const League = () => {
           {currentLeague.name}
         </h1>
       </div>
-      <TabbedMenu
-        standings={currentLeague.standings}
-        matches={currentLeague.matches}
-      />
+      <TabbedMenu leagueCode={currentLeague.code} />
     </main>
   );
 };

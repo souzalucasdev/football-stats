@@ -1,49 +1,56 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import LeagueButton from './LeagueButton';
-
-interface League {
-  name: string;
-  code: string;
-  emblem: string;
-}
+import { RootState, AppDispatch } from '@/redux/store';
+import { setLeagues, setLoading, setError } from '@/redux/slices/leaguesSlice';
 
 const LeaguesDisplayer = () => {
-  const [leagues, setLeagues] = useState<League[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const leagues = useSelector((state: RootState) => state.leagues.leagues);
+  const loading = useSelector((state: RootState) => state.leagues.loading);
+  const error = useSelector((state: RootState) => state.leagues.error);
+
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchLeagues = async () => {
-      try {
-        const res = await fetch('/api/leagues');
-        const data = await res.json();
+    if (leagues.length === 0) {
+      const fetchLeagues = async () => {
+        dispatch(setLoading(true));
+        dispatch(setError(null));
+        try {
+          const res = await fetch('/api/leagues');
+          const data = await res.json();
 
-        if (Array.isArray(data)) {
-          setLeagues(data);
-        } else {
-          console.error('Invalid leagues response:', data);
-          setLeagues([]);
+          if (Array.isArray(data)) {
+            dispatch(setLeagues(data));
+          } else {
+            dispatch(setLeagues([]));
+            dispatch(setError('Invalid data format'));
+          }
+        } catch (error) {
+          dispatch(setLeagues([]));
+          dispatch(setError('Failed to fetch leagues'));
+        } finally {
+          dispatch(setLoading(false));
         }
-      } catch (error) {
-        console.error('Failed to fetch leagues: ', error);
-        setLeagues([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchLeagues();
-  }, []);
+      fetchLeagues();
+    }
+  }, [dispatch, leagues.length]);
 
   const filteredLeagues = leagues.filter((league) =>
     league.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  if (loading) return <p>Loading leagues...</p>;
+  if (error) return <p className='text-red-600'>Error: {error}</p>;
+
   return (
     <>
-      <div className=''>
+      <div>
         <input
           type='text'
           placeholder='Search for a league...'

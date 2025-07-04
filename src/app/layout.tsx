@@ -1,3 +1,4 @@
+import ReduxProviderWrapper from '@/components/ReduxProviderWrapper';
 import type { Metadata } from 'next';
 import { Anta } from 'next/font/google';
 import './globals.css';
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body
         className={`${anta.variable} font-anta bg-custom-green-500 flex flex-col`}
       >
-        <NavBar />
-        <main>{children}</main>
-        <Footer />
+        <ReduxProviderWrapper>
+          <NavBar />
+          <main>{children}</main>
+          <Footer />
+        </ReduxProviderWrapper>
       </body>
     </html>
   );
