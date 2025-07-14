@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import type { RootState } from '@/redux/store';
 
 interface Match {
@@ -26,8 +27,20 @@ const Matches = ({ leagueCode, favoriteTeam }: MatchesProps) => {
     (state: RootState) => state.matches.matches[leagueCode] || [],
   ) as Match[];
 
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(true);
+
   if (!matches.length) return <p className="text-gray-500">No upcoming matches available.</p>;
-  const groupedMatches = matches.reduce<Record<string, Match[]>>((acc, match) => {
+
+  const filteredMatches =
+    showOnlyFavorites && favoriteTeam
+      ? matches.filter(
+          (match) =>
+            match.homeTeam.name.toLowerCase() === favoriteTeam.toLowerCase() ||
+            match.awayTeam.name.toLowerCase() === favoriteTeam.toLowerCase(),
+        )
+      : matches;
+
+  const groupedMatches = filteredMatches.reduce<Record<string, Match[]>>((acc, match) => {
     const matchDate = new Date(match.utcDate);
     const dateKey = matchDate.toLocaleDateString(undefined, {
       day: '2-digit',
@@ -43,6 +56,32 @@ const Matches = ({ leagueCode, favoriteTeam }: MatchesProps) => {
 
   return (
     <div className="text-left text-black">
+      {favoriteTeam && (
+        <div className="text-center mb-6">
+          <div className="flex justify-center items-center gap-4">
+            <span className="text-sm font-medium text-gray-700">My Team</span>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={!showOnlyFavorites}
+                onChange={() => setShowOnlyFavorites((prev) => !prev)}
+              />
+              <div
+                className={`
+                  w-11 h-6 rounded-full after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                  after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                  peer-focus:outline-none
+                  peer peer-checked:after:translate-x-full
+                  ${showOnlyFavorites ? 'bg-green-600' : 'bg-gray-300'}
+                `}
+              />
+            </label>
+            <span className="text-sm font-medium text-gray-700">All Matches</span>
+          </div>
+        </div>
+      )}
+
       {Object.entries(groupedMatches).map(([date, matchesOnDate]) => (
         <section key={date} className="mb-6 text-center">
           <h2 className="font-semibold text-lg mb-4 bg-gray-100">{date}</h2>
@@ -53,6 +92,7 @@ const Matches = ({ leagueCode, favoriteTeam }: MatchesProps) => {
                 minute: '2-digit',
                 hour12: false,
               });
+
               return (
                 <li key={i} className="flex justify-between items-center text-sm">
                   <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 w-full justify-center mb-2">
@@ -81,6 +121,7 @@ const Matches = ({ leagueCode, favoriteTeam }: MatchesProps) => {
                         />
                       )}
                     </div>
+
                     <div className="text-left">
                       <span>{match.awayTeam.name}</span>
                     </div>

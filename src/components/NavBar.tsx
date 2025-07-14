@@ -37,17 +37,16 @@ export default function NavBar() {
         <ul className="hidden md:flex items-center space-x-4">
           {!isLoading && (
             <>
-              <li>
-                <Link href="/about-us" className="">
-                  About us
-                </Link>
-              </li>
-
               {isAuthenticated ? (
                 <>
                   <li>
                     <Link href="/dashboard" className="">
                       Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about-us" className="">
+                      About us
                     </Link>
                   </li>
                   <li>
@@ -59,13 +58,24 @@ export default function NavBar() {
               ) : (
                 <>
                   <li>
-                    <Link href="/login" className="">
+                    <Link
+                      href="/login"
+                      className="text-white bg-green-600 px-4 py-2 rounded-xl hover:bg-green-400"
+                    >
                       Log In
                     </Link>
                   </li>
                   <li>
-                    <Link href="/register" className="">
+                    <Link
+                      href="/register"
+                      className="text-white bg-black px-4 py-2 rounded-xl hover:bg-black/70"
+                    >
                       Register
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/about-us" className="">
+                      About us
                     </Link>
                   </li>
                 </>
