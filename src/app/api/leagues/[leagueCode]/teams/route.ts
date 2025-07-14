@@ -1,19 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_URL = 'https://api.football-data.org/v4';
 const API_KEY = process.env.API_KEY;
 
-export async function GET(req: Request, { params }: { params: { leagueCode: string } }) {
+export async function GET(req: NextRequest) {
   if (!API_KEY) {
-    return new Response(JSON.stringify({ error: 'Missing API_KEY' }), {
-      status: 500,
-    });
+    return NextResponse.json({ error: 'Missing API_KEY' }, { status: 500 });
   }
-  const { leagueCode } = params;
+
+  const urlParts = req.nextUrl.pathname.split('/');
+  const leagueCode = urlParts[urlParts.length - 2];
+
+  if (!leagueCode) {
+    return NextResponse.json({ error: 'Missing leagueCode' }, { status: 400 });
+  }
 
   const response = await fetch(`${BASE_URL}/competitions/${leagueCode}/teams`, {
     headers: {
-      'X-Auth-Token': process.env.API_KEY!,
+      'X-Auth-Token': API_KEY,
     },
   });
 
