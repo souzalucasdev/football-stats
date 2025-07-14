@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['crests.football-data.org'],
   },
+  matcher: ['/login', '/register'],
 };
 
 export default nextConfig;

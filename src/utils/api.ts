@@ -50,10 +50,7 @@ export const getGames = async (leagueCode: string): Promise<Game[]> => {
     return filteredGames;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error(
-        'Failed to find games of the selected league:',
-        error.message
-      );
+      console.error('Failed to find games of the selected league:', error.message);
     } else {
       console.error('Unknown error occurred while fetching games');
     }

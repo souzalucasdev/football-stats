@@ -17,17 +17,17 @@ export async function GET() {
   }
 
   try {
-    const response: AxiosResponse<{ competitions: Competition[] }> =
-      await axios.get(`${BASE_URL}/competitions`, {
+    const response: AxiosResponse<{ competitions: Competition[] }> = await axios.get(
+      `${BASE_URL}/competitions`,
+      {
         headers: {
           'X-Auth-Token': API_KEY,
         },
-      });
+      },
+    );
 
     const leagues = response.data.competitions
-      .filter((comp): comp is Competition =>
-        Boolean(comp.code && comp.name && comp.emblem)
-      )
+      .filter((comp): comp is Competition => Boolean(comp.code && comp.name && comp.emblem))
       .map((comp) => ({
         name: comp.name,
         code: comp.code,

@@ -43,33 +43,31 @@ const LeaguesDisplayer = () => {
   }, [dispatch, leagues.length]);
 
   const filteredLeagues = leagues.filter((league) =>
-    league.name.toLowerCase().includes(search.toLowerCase())
+    league.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   if (loading) return <p>Loading leagues...</p>;
-  if (error) return <p className='text-red-600'>Error: {error}</p>;
+  if (error) return <p className="text-red-600">Error: {error}</p>;
 
   return (
     <>
       <div>
         <input
-          type='text'
-          placeholder='Search for a league...'
+          type="text"
+          placeholder="Search for a league..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className='w-full p-4 rounded-xl border border-gray-300 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 transition mb-12'
+          className="w-full p-4 rounded-xl border border-gray-300 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600 transition mb-12"
         />
       </div>
 
-      <div className='w-full'>
-        <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr'>
+      <div className="w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
           {filteredLeagues.map((league) => (
             <LeagueButton league={league} key={league.code} />
           ))}
           {!loading && filteredLeagues.length === 0 && (
-            <p className='col-span-full text-gray-500 mt-4'>
-              No leagues found.
-            </p>
+            <p className="col-span-full text-gray-500 mt-4">No leagues found.</p>
           )}
         </div>
       </div>

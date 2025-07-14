@@ -45,9 +45,7 @@ const League = () => {
       return;
     }
 
-    const foundLeague = leagues.find(
-      (l) => l.code.toLowerCase() === leagueCode.toLowerCase()
-    );
+    const foundLeague = leagues.find((l) => l.code.toLowerCase() === leagueCode.toLowerCase());
 
     if (!foundLeague) {
       setError('League not found');
@@ -68,27 +66,21 @@ const League = () => {
         const matchesInStore = state.matches.matches[foundLeague.code];
 
         if (!standingsInStore) {
-          const standingsRes = await fetch(
-            `/api/standings?league=${foundLeague.code}`
-          );
+          const standingsRes = await fetch(`/api/standings?league=${foundLeague.code}`);
           if (!standingsRes.ok) throw new Error('Failed to fetch standings');
           const standings = await standingsRes.json();
-          dispatch(
-            setStandings({ leagueCode: foundLeague.code, data: standings })
-          );
+          dispatch(setStandings({ leagueCode: foundLeague.code, data: standings }));
         }
 
         if (!matchesInStore) {
-          const matchesRes = await fetch(
-            `/api/matches?league=${foundLeague.code}`
-          );
+          const matchesRes = await fetch(`/api/matches?league=${foundLeague.code}`);
           if (!matchesRes.ok) throw new Error('Failed to fetch matches');
           const matchesData = await matchesRes.json();
           dispatch(
             setMatches({
               leagueCode: foundLeague.code,
               data: matchesData.matches.slice(0, 10),
-            })
+            }),
           );
         }
       } catch (e) {
@@ -102,23 +94,21 @@ const League = () => {
   }, [leagueCode, leagues, dispatch]);
 
   if (loading) return <Spinner />;
-  if (error) return <p className='p-4 text-center text-red-600'>{error}</p>;
+  if (error) return <p className="p-4 text-center text-red-600">{error}</p>;
   if (!currentLeague) return null;
 
   return (
-    <main className='min-h-screen bg-gray-50 p-6'>
+    <main className="min-h-screen bg-gray-50 p-6">
       <BackButton />
-      <div className='max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md text-center'>
+      <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md text-center">
         <Image
           src={currentLeague.emblem}
           alt={`${currentLeague.name} logo`}
           width={80}
           height={80}
-          className='mx-auto mb-4'
+          className="mx-auto mb-4"
         />
-        <h1 className='text-2xl font-semibold text-gray-800'>
-          {currentLeague.name}
-        </h1>
+        <h1 className="text-2xl font-semibold text-gray-800">{currentLeague.name}</h1>
       </div>
       <TabbedMenu leagueCode={currentLeague.code} />
     </main>

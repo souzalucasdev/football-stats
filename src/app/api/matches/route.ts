@@ -33,17 +33,18 @@ export async function GET(req: NextRequest) {
       `${BASE_URL}/competitions/${league}/matches?status=SCHEDULED`,
       {
         headers: { 'X-Auth-Token': API_KEY },
-      }
+      },
     );
 
     const teamsRes = await axios.get<{ teams: Team[] }>(
       `${BASE_URL}/competitions/${league}/teams`,
       {
         headers: { 'X-Auth-Token': API_KEY },
-      }
+      },
     );
 
     const teamsMap = new Map<number, { name: string; crest: string }>();
+
     for (const team of teamsRes.data.teams) {
       teamsMap.set(team.id, {
         name: team.name,

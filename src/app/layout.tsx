@@ -1,7 +1,7 @@
-import ReduxProviderWrapper from '@/components/ReduxProviderWrapper';
+import './globals.css';
 import type { Metadata } from 'next';
 import { Anta } from 'next/font/google';
-import './globals.css';
+import AppProviders from '@/components/AppProviders';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 
@@ -23,15 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body
-        className={`${anta.variable} font-anta bg-custom-green-500 flex flex-col`}
-      >
-        <ReduxProviderWrapper>
+    <html lang="en">
+      <body className={`${anta.variable} font-anta bg-custom-green-500 flex flex-col`}>
+        <AppProviders>
           <NavBar />
           <main>{children}</main>
           <Footer />
-        </ReduxProviderWrapper>
+        </AppProviders>
       </body>
     </html>
   );

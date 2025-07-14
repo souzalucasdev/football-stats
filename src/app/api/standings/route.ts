@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
       `${BASE_URL}/competitions/${league}/standings`,
       {
         headers: { 'X-Auth-Token': API_KEY },
-      }
+      },
     );
 
     const rawTable = res.data.standings[0]?.table || [];
@@ -47,11 +47,8 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     console.error('Standings API error:', err);
-    return new Response(
-      JSON.stringify({ error: 'Failed to fetch standings' }),
-      {
-        status: 500,
-      }
-    );
+    return new Response(JSON.stringify({ error: 'Failed to fetch standings' }), {
+      status: 500,
+    });
   }
 }

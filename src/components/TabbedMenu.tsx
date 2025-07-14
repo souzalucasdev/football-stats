@@ -6,14 +6,16 @@ import Matches from '@/components/Matches';
 
 interface TabbedMenuProps {
   leagueCode: string;
+  favoriteTeam?: string;
 }
 
-const TabbedMenu = ({ leagueCode }: TabbedMenuProps) => {
+const TabbedMenu = ({ leagueCode, favoriteTeam }: TabbedMenuProps) => {
+  console.log('Fav on TabbedMenu: ', favoriteTeam);
   const [activeTab, setActiveTab] = useState<'Table' | 'Matches'>('Table');
 
   return (
     <>
-      <div className='mt-8 max-w-xl mx-auto border-b border-gray-200 flex justify-center'>
+      <div className="mt-8 max-w-xl mx-auto border-b border-gray-200 flex justify-center">
         {['Table', 'Matches'].map((tab) => (
           <button
             key={tab}
@@ -29,9 +31,9 @@ const TabbedMenu = ({ leagueCode }: TabbedMenuProps) => {
         ))}
       </div>
 
-      <div className='mt-6 max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md'>
-        {activeTab === 'Table' && <Standings leagueCode={leagueCode} />}
-        {activeTab === 'Matches' && <Matches leagueCode={leagueCode} />}
+      <div className="mt-6 max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md">
+        {activeTab === 'Table' && <Standings leagueCode={leagueCode} favoriteTeam={favoriteTeam} />}
+        {activeTab === 'Matches' && <Matches leagueCode={leagueCode} favoriteTeam={favoriteTeam} />}
       </div>
     </>
   );

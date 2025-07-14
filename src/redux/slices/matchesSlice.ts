@@ -22,10 +22,7 @@ const matchesSlice = createSlice({
   name: 'matches',
   initialState,
   reducers: {
-    setMatches(
-      state,
-      action: PayloadAction<{ leagueCode: string; data: Match[] }>
-    ) {
+    setMatches(state, action: PayloadAction<{ leagueCode: string; data: Match[] }>) {
       state.matches[action.payload.leagueCode] = action.payload.data;
     },
     setLoading(state, action: PayloadAction<boolean>) {
